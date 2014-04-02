@@ -1,0 +1,64 @@
+local w, h = term.getSize()
+--  Drawing
+
+local function printWithType(t, func)
+	if type(t) == "table" then
+		for _, v in pairs(t) do env.pcall(function() printWithType(v, func) end) end
+	else func(tostring(t)) end
+end
+
+centerWrite = function(text)
+	printWithType(text, function(t)
+		local x, y = term.getCursorPos()
+		term.setCursorPos(math.ceil((w + 1)/2 - t:len()/2), y)
+		write(t)
+	end)
+end
+
+centerPrint = function(text)
+	printWithType(text, function(t)
+		local x, y = term.getCursorPos()
+		term.setCursorPos(math.ceil((w + 2)/2 - t:len()/2), y)
+		print(t)
+	end)
+end
+
+leftWrite = function(text)
+	printWithType(text, function(t)
+		local x, y = term.getCursorPos()
+		term.setCursorPos(1, y)
+		write(t)
+	end)
+end
+
+leftPrint = function(text)
+	printWithType(text, function(t)
+		local x, y = term.getCursorPos()
+		term.setCursorPos(1, y)
+		print(t)
+	end)
+end
+
+rightWrite = function(text)
+	printWithType(text, function(t)
+		local x, y = term.getCursorPos()
+		term.setCursorPos(w - t:len() + 1, y)
+		write(t)
+	end)
+end
+
+rightPrint = function(text)
+	printWithType(text, function(t)
+		local x, y = term.getCursorPos()
+		term.setCursorPos(w - t:len() + 1, y)
+		print(t)
+	end)
+end
+
+clearArea = function() term.clear() term.setCursorPos(1, 1) end
+cPrint = function(text) api.centerPrint(text) end
+cWrite = function(text) api.centerWrite(text) end
+lPrint = function(text) api.leftPrint(text) end
+lWrite = function(text) api.leftWrite(text) end
+rPrint = function(text) api.rightPrint(text) end
+rWrite = function(text) api.rightWrite(text) end
